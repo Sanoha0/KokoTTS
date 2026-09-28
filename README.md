@@ -23,6 +23,15 @@ For production, run `npm run build` and host `dist/` on any HTTPS static host. T
 
 In **Settings → Pages**, select **GitHub Actions**. The included workflow builds and deploys after changes to `main`.
 
+
+## Mobile installation
+
+KokoTTS is responsive and installable from the GitHub Pages site. On a supported mobile browser, tap **Install app** or use the browser's **Add to Home Screen** command.
+
+GitHub Actions also builds an Android APK. Open the latest successful **Build Android APK** run, download the \`KokoTTS-Android-debug\` artifact, unzip it, and install \`app-debug.apk\`. Android may ask you to allow installs from the browser or file manager you used.
+
+The APK bundles the web app in an Android WebView. Generated MP3 and WAV files save to \`Downloads/KokoTTS\`. The current build is debug-signed; if Android rejects an update from a later build, uninstall the older KokoTTS APK first.
+
 ## Privacy and limits
 
 The first generation downloads roughly 90 MB of model weights plus runtime and voice files from Hugging Face/CDN services, which receive ordinary request metadata. Input text and generated audio stay in browser memory and are never sent to this website's server. Browser caching is best effort. This release supports English voices and uses CPU/WebAssembly for compatibility; performance depends on the device.

@@ -8,3 +8,47 @@ function generate(){if(busy||!$('text').value.trim())return;jobVoice=VOICES.find
 $('text').oninput=count;$('gender').onchange=render;$('accent').onchange=render;$('theme').onchange=e=>applyTheme(e.target.value);$('speed').oninput=()=>$('speed-value').textContent=Number($('speed').value).toFixed(1)+'×';$('generate').onclick=generate;$('cancel').onclick=()=>{worker?.terminate();worker=null;lock(false);say('Cancelled. Your text and previous recording are still here.')};$('sample').onclick=()=>{if($('text').value.trim()&&!confirm('Replace your current text with the example?'))return;$('text').value='Some ideas are better heard. A story on your morning walk. A few notes before a big day. Or a little reminder that the thing you have been meaning to make is worth starting. Give your words a voice, and see where they take you.';count();$('text').focus()};$('clear').onclick=()=>{if($('text').value.trim()&&!confirm('Clear your text? Your generated audio will stay available.'))return;$('text').value='';count();$('text').focus()};$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>100000)throw Error('Choose a text file smaller than 100 KB.');const t=await f.text();if(t.length>MAX_TEXT)throw Error('This file exceeds 20,000 characters.');if(t.includes('\0'))throw Error('Choose a plain text or Markdown file.');if($('text').value.trim()&&!confirm('Replace your current text with this file?'))return;$('text').value=t;count();say('Text imported. Choose a voice and generate.')}catch(x){say(x.message,true)}finally{e.target.value=''}};addEventListener('resize',()=>peaks.length&&draw());addEventListener('beforeunload',()=>{urls.forEach(URL.revokeObjectURL);worker?.terminate()});let savedTheme='frutiger';try{savedTheme=localStorage.getItem('kokotts-theme')||'frutiger'}catch{}applyTheme(savedTheme);render();count();
 if(document.modelContext?.registerTool)try{Promise.resolve(document.modelContext.registerTool({name:'stage_speech_text',description:'Replace the speech editor text without generating audio.',inputSchema:{type:'object',properties:{text:{type:'string',minLength:1,maxLength:MAX_TEXT}},required:['text'],additionalProperties:false},annotations:{readOnlyHint:false},execute(input){if(busy)throw Error('Wait for generation to finish.');if(!input||typeof input.text!=='string'||!input.text.trim()||input.text.length>MAX_TEXT)throw Error('Provide 1–20,000 characters.');$('text').value=input.text;count();return{characters:input.text.length,ready:true}}})).catch(()=>{})}catch{}
 
+const installButton=$('install');
+let deferredInstall=null;
+addEventListener('beforeinstallprompt',event=>{
+  event.preventDefault();
+  deferredInstall=event;
+  installButton.hidden=false;
+});
+installButton.addEventListener('click',async()=>{
+  if(!deferredInstall)return;
+  deferredInstall.prompt();
+  await deferredInstall.userChoice;
+  deferredInstall=null;
+  installButton.hidden=true;
+});
+addEventListener('appinstalled',()=>{
+  deferredInstall=null;
+  installButton.hidden=true;
+});
+if('serviceWorker' in navigator&&location.protocol==='https:'){
+  addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+
+for(const id of ['download-mp3','download-wav']){
+  $(id).addEventListener('click',async event=>{
+    if(!window.AndroidDownloads)return;
+    event.preventDefault();
+    const link=event.currentTarget;
+    if(!link.href)return;
+    try{
+      const blob=await fetch(link.href).then(response=>response.blob());
+      const dataUrl=await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(reader.error);
+        reader.readAsDataURL(blob);
+      });
+      window.AndroidDownloads.saveBase64(link.download,blob.type||(
+        link.download.endsWith('.mp3')?'audio/mpeg':'audio/wav'
+      ),dataUrl);
+    }catch(error){
+      say('Could not save the audio file. '+(error?.message||'Try again.'),true);
+    }
+  });
+}

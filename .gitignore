@@ -3,4 +3,9 @@ dist/
 .sites-runtime/
 test-results/
 *.zip
-
+android/.gradle/
+android/**/build/
+android/app/src/main/assets/kokotts/
+android/local.properties
+*.jks
+*.keystore
