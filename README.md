@@ -34,3 +34,13 @@ The implementation was checked with real Heart (female) and George (male) synthe
 ## License
 
 Application code is MIT. Kokoro, its model, Transformers.js, phonemizer/eSpeak NG, and LAME.js retain their respective licenses. See `public/THIRD_PARTY_NOTICES.txt`.
+# Mobile installation
+
+KokoTTS works on phones and tablets from the same GitHub Pages site. In a supported mobile browser, use the **Install app** button or the browser's **Add to Home Screen** command to install the free Progressive Web App.
+
+An Android APK is also built automatically by GitHub Actions. Open the latest successful **Build Android APK** workflow run, download the `KokoTTS-Android-debug` artifact, unzip it, and install `app-debug.apk`. Android may ask you to allow installs from the browser or file manager you used.
+
+The APK contains the compiled website and runs it in a secure Android WebView. Generated MP3 and WAV files are saved under `Downloads/KokoTTS`. The current downloadable build is debug-signed, so uninstall an older build first if Android refuses an update from a newly generated artifact.
+
+To build it locally, build the website, copy `dist` into `android/app/src/main/assets/kokotts`, then run `gradle :app:assembleDebug` from the `android` directory with Java 17 and Gradle 8.9.
+
