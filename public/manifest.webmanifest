@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"name":"KokoTTS","short_name":"KokoTTS","description":"Free, private Kokoro text to speech with MP3 and WAV downloads.","start_url":"./","scope":"./","display":"standalone","background_color":"#dff5ff","theme_color":"#168b43","orientation":"any","icons":[{"src":"./favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+=======
+{"name":"KokoTTS","short_name":"KokoTTS","description":"Free, private Kokoro text to speech on your device.","start_url":"./","scope":"./","display":"standalone","background_color":"#091a2b","theme_color":"#168b43","icons":[{"src":"./favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+>>>>>>> 544063aeada6b406102f5d474a0896e08148042d
