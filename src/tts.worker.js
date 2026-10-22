@@ -14,6 +14,27 @@ function progressCallback(progress){
   }
 }
 
+function wordWeight(word){
+  const plain=word.toLocaleLowerCase().replace(/[^a-z]/g,'');
+  const nuclei=plain.match(/[aeiouy]+/g)?.length??1;
+  const syllables=nuclei>1&&/e$/.test(plain)&&!/le$/.test(plain)?nuclei-1:nuclei;
+  const pause=/[.!?…]["')\]}]*$/.test(word)?0.8:/[,;:]["')\]}]*$/.test(word)?0.42:0;
+  return Math.max(1,syllables)+pause;
+}
+
+function appendPassageTimeline(words,duration,offset,timeline){
+  if(!words.length||duration<=0)return offset;
+  const weights=words.map(wordWeight);
+  const total=weights.reduce((sum,weight)=>sum+weight,0);
+  let cursor=offset;
+  words.forEach((word,index)=>{
+    const end=cursor+duration*weights[index]/total;
+    timeline.push({word,start:cursor,end});
+    cursor=end;
+  });
+  return offset+duration;
+}
+
 async function loadModel(){
   const hasEnoughMemory=(self.navigator.deviceMemory??8)>=6;
   if(self.navigator.gpu&&hasEnoughMemory){
@@ -53,7 +74,9 @@ self.onmessage=async({data})=>{
 
     const chunks=splitText(text);
     const parts=[];
+    const timeline=[];
     let length=0;
+    let timelineOffset=0;
     for(let i=0;i<chunks.length;i++){
       self.postMessage({
         type:'status',
@@ -66,6 +89,12 @@ self.onmessage=async({data})=>{
       }
       parts.push(audio.audio);
       length+=audio.audio.length;
+      timelineOffset=appendPassageTimeline(
+        chunks[i].match(/\S+/gu)??[],
+        audio.audio.length/(audio.sampling_rate||24000),
+        timelineOffset,
+        timeline,
+      );
     }
 
     const samples=new Float32Array(length);
@@ -102,7 +131,7 @@ self.onmessage=async({data})=>{
       for(let j=start;j<end;j++)peak=Math.max(peak,Math.abs(samples[j]));
       return peak;
     });
-    self.postMessage({type:'done',wav,mp3,mp3Error,duration:length/24000,peaks,engine});
+    self.postMessage({type:'done',wav,mp3,mp3Error,duration:length/24000,peaks,engine,timeline});
   }catch(error){
     self.postMessage({type:'error',message:error.message||String(error)});
   }

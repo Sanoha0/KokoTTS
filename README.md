@@ -8,6 +8,7 @@ Free, private, browser-based text to speech powered by Kokoro-82M. Paste text, s
 - Local WebAssembly speech synthesis and local MP3/WAV encoding.
 - Voice gender, accent, and 0.5×–2× speed controls.
 - Plain-text/Markdown import, progress, cancellation, playback, and waveform.
+- Karaoke-style word highlighting while the generated audio plays (approximate word timing).
 - A 20,000-character per-run limit and safe chunking for browser memory.
 
 ## Run
@@ -34,7 +35,7 @@ The APK bundles the web app in an Android WebView. Generated MP3 and WAV files s
 
 ## Privacy and limits
 
-The first generation downloads roughly 90 MB of model weights plus runtime and voice files from Hugging Face/CDN services, which receive ordinary request metadata. Input text and generated audio stay in browser memory and are never sent to this website's server. Browser caching is best effort. This release supports English voices and uses CPU/WebAssembly for compatibility; performance depends on the device.
+The first generation downloads model weights plus runtime and voice files from Hugging Face/CDN services, which receive ordinary request metadata. The GPU model is larger than the CPU fallback. Input text and generated audio stay in browser memory and are never sent to this website's server. Browser caching is best effort. This release supports English voices and uses GPU acceleration where available, with a CPU/WebAssembly fallback; performance depends on the device.
 
 ## Verification
 

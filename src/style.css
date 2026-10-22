@@ -31,3 +31,11 @@ button,.downloads a,.editorbar label,.voice,fieldset label{min-height:44px}
   .downloads{display:grid;grid-template-columns:1fr 1fr}
   .downloads>span{grid-column:1/-1}
 }
+
+.karaoke{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);overflow:hidden}
+.karaoke-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.karaoke-heading span{font-size:11px;color:var(--muted)}
+.karaoke-text{max-height:150px;overflow:auto;padding:14px 16px;color:var(--muted);font-size:16px;line-height:2;white-space:pre-wrap;scrollbar-color:var(--line) transparent}
+.karaoke-word{border-radius:4px;transition:background-color .12s,color .12s}
+.karaoke-word.active{background:var(--accent-2);color:var(--button-text);box-shadow:0 0 0 2px var(--accent-2);font-weight:700}
+@media(max-width:600px){.karaoke-text{max-height:180px;padding:12px;font-size:15px}}
