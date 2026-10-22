@@ -1,7 +1,4 @@
 import { defineConfig } from 'vite';
-<<<<<<< HEAD
-export default defineConfig({ base: './', worker: { format: 'es' }, build: { target: 'es2022' } });
-=======
 
 export default defineConfig({
   base: './',
@@ -17,5 +14,3 @@ export default defineConfig({
     },
   }],
 });
-
->>>>>>> 544063aeada6b406102f5d474a0896e08148042d

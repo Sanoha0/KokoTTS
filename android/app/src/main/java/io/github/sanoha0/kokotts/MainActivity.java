@@ -24,13 +24,8 @@ import java.io.OutputStream;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
-<<<<<<< HEAD
-    private static final String APP_ORIGIN = "https://appassets.androidplatform.net";
-    private static final String APP_URL = APP_ORIGIN + "/assets/kokotts/index.html";
-=======
     private static final String APP_URL =
             "https://appassets.androidplatform.net/assets/kokotts/index.html";
->>>>>>> 544063aeada6b406102f5d474a0896e08148042d
     private WebView webView;
 
     @Override

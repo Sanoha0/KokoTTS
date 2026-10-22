@@ -14,7 +14,3 @@ https://github.com/espeak-ng/espeak-ng
 @breezystack/lamejs 1.2.7 — LGPL-3.0
 https://github.com/shijinyu/lamejs
 The encoder is separately bundled and replaceable by changing the dependency and rebuilding.
-<<<<<<< HEAD
-=======
-
->>>>>>> 544063aeada6b406102f5d474a0896e08148042d
