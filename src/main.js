@@ -9,7 +9,18 @@ $('text').oninput=count;$('gender').onchange=render;$('accent').onchange=render;
 if(document.modelContext?.registerTool)try{Promise.resolve(document.modelContext.registerTool({name:'stage_speech_text',description:'Replace the speech editor text without generating audio.',inputSchema:{type:'object',properties:{text:{type:'string',minLength:1,maxLength:MAX_TEXT}},required:['text'],additionalProperties:false},annotations:{readOnlyHint:false},execute(input){if(busy)throw Error('Wait for generation to finish.');if(!input||typeof input.text!=='string'||!input.text.trim()||input.text.length>MAX_TEXT)throw Error('Provide 1–20,000 characters.');$('text').value=input.text;count();return{characters:input.text.length,ready:true}}})).catch(()=>{})}catch{}
 
 const installButton=$('install');
+const iosInstallGuide=$('ios-install-guide');
 let deferredInstall=null;
+const isIOS=/iPhone|iPad|iPod/u.test(navigator.userAgent)||(
+  navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1
+);
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+if(isIOS&&!isStandalone){
+  installButton.textContent='Add to Home Screen';
+  installButton.hidden=false;
+  installButton.addEventListener('click',()=>iosInstallGuide.showModal());
+  $('close-ios-guide').addEventListener('click',()=>iosInstallGuide.close());
+}
 addEventListener('beforeinstallprompt',event=>{
   event.preventDefault();
   deferredInstall=event;

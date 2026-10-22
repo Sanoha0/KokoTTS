@@ -111,3 +111,13 @@ button,.downloads a,.editorbar label,.voice,fieldset label{min-height:44px}
   .voice{padding:7px 6px;gap:5px}
   .voice>b{flex-basis:26px;width:26px;height:26px;font-size:12px}
 }
+
+.ios-install-guide{width:min(92vw,440px);max-width:none;border:1px solid var(--line);border-radius:20px;padding:0;background:var(--surface);color:var(--text);box-shadow:0 24px 80px #0007}
+.ios-install-guide::backdrop{background:#061018aa;backdrop-filter:blur(4px)}
+.ios-install-guide>div{padding:24px}
+.ios-install-guide .eyebrow{margin-bottom:8px}
+.ios-install-guide h2{margin:0 0 14px;font-size:22px;line-height:1.2}
+.ios-install-guide ol{padding-left:22px;margin:0 0 20px;color:var(--muted);line-height:1.7}
+.ios-install-guide li{padding-left:3px;margin:5px 0}
+.ios-install-guide li strong{color:var(--text)}
+.ios-install-guide .primary{width:100%;min-height:48px}

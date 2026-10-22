@@ -27,7 +27,9 @@ In **Settings → Pages**, select **GitHub Actions**. The included workflow buil
 
 ## Mobile installation
 
-KokoTTS is responsive and installable from the GitHub Pages site. On a supported mobile browser, tap **Install app** or use the browser's **Add to Home Screen** command.
+KokoTTS is responsive and installable from the GitHub Pages site. On iPhone, open the site in Safari, tap **Add to Home Screen** in the Share menu, turn on **Open as Web App** if it appears, then tap **Add**. The site also shows these steps from its **Add to Home Screen** button. This installs the free web-app version; it does not require an App Store download.
+
+On other supported mobile browsers, tap **Install app** or use the browser's **Add to Home Screen** command.
 
 GitHub Actions also builds an Android APK. Open the latest successful **Build Android APK** run, download the \`KokoTTS-Android-debug\` artifact, unzip it, and install \`app-debug.apk\`. Android may ask you to allow installs from the browser or file manager you used.
 

@@ -1,5 +1,5 @@
-const CACHE='kokotts-shell-v2';
-const SHELL=['./','./index.html','./manifest.webmanifest','./favicon.svg','./THIRD_PARTY_NOTICES.txt'];
+const CACHE='kokotts-shell-v3';
+const SHELL=['./','./index.html','./manifest.webmanifest','./favicon.svg','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./THIRD_PARTY_NOTICES.txt'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
 });
